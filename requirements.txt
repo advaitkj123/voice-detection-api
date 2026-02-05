@@ -1,0 +1,11 @@
+fastapi
+
+uvicorn
+
+librosa
+
+numpy
+
+requests
+
+soundfile
