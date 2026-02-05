@@ -1,5 +1,15 @@
 from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+class TesterVoiceRequest(BaseModel):
+    language: str
+    audio_format: str = Field(..., alias="audioFormat")
+    audio_base64: str = Field(..., alias="audioBase64")
+
+    class Config:
+        populate_by_name = True
+
 
 app = FastAPI()
 
