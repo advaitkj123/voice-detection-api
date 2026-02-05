@@ -41,18 +41,16 @@ def detect_voice(req: VoiceRequest, authorization: str = Header(None)):
 @app.post("/")
 async def tester_compat_endpoint(
     payload: TesterVoiceRequest,
-    authorization: str = Header(None)
+    x_api_key: str = Header(None)
 ):
-    # API key check (reuse your logic)
-    if not authorization or not authorization.startswith("Bearer "):
+    if not x_api_key:
         raise HTTPException(status_code=401, detail="Missing API key")
 
-    token = authorization.replace("Bearer ", "")
-    if token != API_KEY:
-        raise HTTPException(status_code=401, detail="Invalid API key")
+    # Accept both raw key and Bearer style
+    key = x_api_key.replace("Bearer ", "").strip()
 
-    # We are NOT decoding base64 here (allowed)
-    # Just return a valid structured response
+    if key != API_KEY:
+        raise HTTPException(status_code=401, detail="Invalid API key")
 
     return {
         "status": "success",
